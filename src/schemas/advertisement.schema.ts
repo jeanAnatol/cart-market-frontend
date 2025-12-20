@@ -33,6 +33,8 @@ export const locationSchema = z.object({
 });
 
 export const advertisementSchema = z.object({
+  adName: z.string().min(1),
+  uuid: z.string().min(1),
   userId: z.number().int().min(1),
   price: z.number().int().min(1),
 
@@ -41,5 +43,7 @@ export const advertisementSchema = z.object({
   contactInfoDTO: contactInfoSchema,
   locationDTO: locationSchema,
 
-  imageUrl: z.array(z.url())
+  imageUrl: z.array(z.url()),
+  createdAt: z.string().min(1),
+  updatedAt: z.string().min(1),
 })

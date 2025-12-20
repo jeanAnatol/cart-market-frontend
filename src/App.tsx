@@ -1,5 +1,6 @@
 
 import AdvertisementsPage from "./components/pages/AdvertisementsPage.tsx";
+import Layout from "./components/layout/Layout.tsx";
 
 
 
@@ -7,7 +8,9 @@ function App() {
 
   return (
     <>
-      <AdvertisementsPage/>
+      <Layout>
+        <AdvertisementsPage />
+      </Layout>
     </>
   )
 }
