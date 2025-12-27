@@ -32,7 +32,7 @@ export const locationSchema = z.object({
   postalCode: z.string().min(1),
 });
 
-export const advertisementSchema = z.object({
+export const advertisementReadSchema = z.object({
   adName: z.string().min(1),
   uuid: z.string().min(1),
   userId: z.number().int().min(1),

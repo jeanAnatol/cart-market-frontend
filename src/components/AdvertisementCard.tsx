@@ -1,8 +1,8 @@
-import type {Advertisement} from "../types/advertisement.ts";
+import type {AdvertisementRead} from "../types/advertisement.read.ts";
 import {AdvertisementCarouselProps} from "./AdvertisementCarouselProps.tsx";
 
 interface CardProps {
-  ad: Advertisement
+  ad: AdvertisementRead
 }
 
 export function AdvertisementCard({ad}: CardProps) {

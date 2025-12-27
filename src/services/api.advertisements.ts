@@ -1,8 +1,14 @@
-import type {Advertisement} from "../types/advertisement.ts";
+import type {AdvertisementRead} from "../types/advertisement.read.ts";
+import api from "./axios";
 
 const advUrl = import.meta.env.VITE_ADV_API_URL;
 
-export async function getAdvertisements(): Promise<Advertisement[]> {
+// const TEMP_ACCESS_TOKEN =
+//   import.meta.env.VITE_TEMP_ACCESS_TOKEN;
+
+
+
+export async function getAdvertisements(): Promise<AdvertisementRead[]> {
 
   const response = await fetch(`${advUrl}/all`, {
     method: "GET",
@@ -11,4 +17,33 @@ export async function getAdvertisements(): Promise<Advertisement[]> {
   if (!response.ok) throw new Error("Failed to fetch advertisements.");
 
   return await response.json();
+}
+
+// export async function createAdvertisement(formData: FormData): Promise<void> {
+//   const response = await fetch(`${advUrl}/new`, {
+//     method: "POST",
+//     headers: {
+//       Authorization: `Bearer ${TEMP_ACCESS_TOKEN}`,
+//       // ❗ DO NOT set Content-Type for multipart
+//     },
+//     body: formData,
+//   });
+//
+//   if (!response.ok) {
+//     const errorText = await response.text();
+//     throw new Error(
+//       `Failed to create advertisement (${response.status}): ${errorText}`
+//     );
+//   }
+// }
+
+
+
+export async function createAdvertisement(formData: FormData): Promise<void> {
+  await api.post("/advertisements", formData, {
+    headers: {
+      // Axios will set multipart boundary automatically
+      "Content-Type": "multipart/form-data",
+    },
+  });
 }

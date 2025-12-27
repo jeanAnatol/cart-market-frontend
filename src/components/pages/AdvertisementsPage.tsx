@@ -1,13 +1,13 @@
 
 import {useEffect, useState} from "react";
-import type {Advertisement} from "../../types/advertisement.ts";
+import type {AdvertisementRead} from "../../types/advertisement.read.ts";
 import {getAdvertisements} from "../../services/api.advertisements.ts";
 
 import {AdvertisementCard} from "../AdvertisementCard.tsx";
 
 
 const AdvertisementsPage = () => {
-  const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+  const [advertisements, setAdvertisements] = useState<AdvertisementRead[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
