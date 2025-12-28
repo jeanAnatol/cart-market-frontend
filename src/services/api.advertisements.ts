@@ -19,26 +19,6 @@ export async function getAdvertisements(): Promise<AdvertisementRead[]> {
   return await response.json();
 }
 
-// export async function createAdvertisement(formData: FormData): Promise<void> {
-//   const response = await fetch(`${advUrl}/new`, {
-//     method: "POST",
-//     headers: {
-//       Authorization: `Bearer ${TEMP_ACCESS_TOKEN}`,
-//       // ❗ DO NOT set Content-Type for multipart
-//     },
-//     body: formData,
-//   });
-//
-//   if (!response.ok) {
-//     const errorText = await response.text();
-//     throw new Error(
-//       `Failed to create advertisement (${response.status}): ${errorText}`
-//     );
-//   }
-// }
-
-
-
 export async function createAdvertisement(
   formData: FormData
 ): Promise<AdvertisementRead> {
@@ -53,4 +33,15 @@ export async function createAdvertisement(
   );
   
   return res.data;
+}
+
+export async function fetchAdvertisementByUuid(uuid: string): Promise<AdvertisementRead> {
+  
+  const response = await fetch(`${advUrl}/${uuid}`, {
+    method: "GET",
+    headers: {"content-type": "application/json"}
+  });
+  if (!response.ok) throw new Error("Failed to fetch advertisement.");
+  
+  return await response.json();
 }

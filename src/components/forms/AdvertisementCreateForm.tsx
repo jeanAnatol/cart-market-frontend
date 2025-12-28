@@ -2,16 +2,22 @@ import {useEffect, useMemo, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 
-import {advertisementInsertSchema} from "../../schemas/advertisement.insert.schema";
-import type {AdvertisementInsert} from "../../types/advertisement.insert";
+import {advertisementInsertSchema} from "../../schemas/advertisement.insert.schema.ts";
+import type {AdvertisementInsert} from "../../types/advertisement.insert.ts";
 import type {FuelTypeDTO, VehicleTypeDTO} from "../../types/vehicle.catalog.type.ts";
 
 import {fetchFuelTypes, fetchVehicleCatalog, fetchVehicleStates} from "../../services/api.vehicle.catalog.ts";
 import {createAdvertisement} from "../../services/api.advertisements.ts";
 import type {AdvertisementRead} from "../../types/advertisement.read.ts";
+import {useNavigate} from "react-router";
+
+
 
 
 export default function AdvertisementCreateForm() {
+  
+  // const advUrl = import.meta.env.VITE_ADV_API_URL;
+  
   
   const [vehicleTypes, setVehicleTypes] = useState<VehicleTypeDTO[]>([]);
   const [fuelTypes, setFuelTypes] = useState<FuelTypeDTO[]>([]);
@@ -48,6 +54,7 @@ export default function AdvertisementCreateForm() {
   
   const vehicleTypeId = watch("vehicleDetailsInsertDTO.vehicleTypeId");
   const makeId = watch("vehicleDetailsInsertDTO.makeId");
+  const navigate = useNavigate();
   
   
   const selectedVehicleType = useMemo(
@@ -87,6 +94,8 @@ export default function AdvertisementCreateForm() {
     // await createAdvertisement(formData);
     const savedAd = await createAdvertisement(formData);
     setCreatedAd(savedAd);
+    
+    navigate(`/advertisements/${savedAd.uuid}`);
   };
   
   
