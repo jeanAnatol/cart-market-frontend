@@ -3,8 +3,8 @@ import api from "./axios";
 
 const advUrl = import.meta.env.VITE_ADV_API_URL;
 
-// const TEMP_ACCESS_TOKEN =
-//   import.meta.env.VITE_TEMP_ACCESS_TOKEN;
+const TEMP_ACCESS_TOKEN =
+  import.meta.env.VITE_TEMP_ACCESS_TOKEN;
 
 
 
@@ -39,11 +39,18 @@ export async function getAdvertisements(): Promise<AdvertisementRead[]> {
 
 
 
-export async function createAdvertisement(formData: FormData): Promise<void> {
-  await api.post("/advertisements", formData, {
-    headers: {
-      // Axios will set multipart boundary automatically
-      "Content-Type": "multipart/form-data",
-    },
-  });
+export async function createAdvertisement(
+  formData: FormData
+): Promise<AdvertisementRead> {
+  const res = await api.post<AdvertisementRead>(
+    `${advUrl}/new`,
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${TEMP_ACCESS_TOKEN}`,
+      },
+    }
+  );
+  
+  return res.data;
 }

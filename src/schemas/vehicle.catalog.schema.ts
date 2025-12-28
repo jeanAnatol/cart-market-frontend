@@ -18,7 +18,3 @@ export const vehicleTypeSchema = z.object({
   name: z.string(),
   makes: z.array(makeSchema),
 });
-
-export const vehicleCatalogSchema = z.array(vehicleTypeSchema);
-
-export type VehicleTypeDTO = z.infer<typeof vehicleTypeSchema>;

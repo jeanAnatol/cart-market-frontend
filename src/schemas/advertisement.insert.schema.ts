@@ -7,7 +7,7 @@ export const vehicleDetailsInsertSchema = z.object({
   manufactureYear: z.string().regex(/^\d{4}$/),
   mileage: z.number().int().nonnegative(),
   color: z.string().min(1),
-  state: z.enum(["NEW", "USED", "ONLY PARTS"]),
+  state: z.string(),
   vehicleDescriptionText: z.string().min(10),
 });
 
@@ -15,7 +15,7 @@ export const vehicleDetailsInsertSchema = z.object({
 export const engineSpecInsertSchema = z.object({
   displacement: z.number().positive(),
   fuelTypeId: z.number().int().positive(),
-  gearboxType: z.enum(["Manual", "Automatic"]),
+  gearboxType: z.string(),
   horsePower: z.number().positive(),
 });
 

@@ -15,3 +15,9 @@ export type VehicleTypeDTO = {
   name: string;
   makes: MakeDTO[];
 };
+
+export type FuelTypeDTO = {
+  id: number;
+  name: string;
+}
+
