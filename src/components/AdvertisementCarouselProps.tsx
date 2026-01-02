@@ -25,6 +25,7 @@ export function AdvertisementCarouselProps({images}: AdvertisementCarouselProps)
 
   return (
     <>
+      <div className="">
       <Carousel className="w-full max-w-lg">
         <div>
         <CarouselContent>
@@ -46,6 +47,7 @@ export function AdvertisementCarouselProps({images}: AdvertisementCarouselProps)
         <CarouselNext />
         </div>
       </Carousel>
+      </div>
     </>
   )
 }
