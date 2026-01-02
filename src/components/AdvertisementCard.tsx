@@ -1,5 +1,6 @@
 import type {AdvertisementRead} from "../types/advertisement.read.ts";
 import {AdvertisementCarouselProps} from "./AdvertisementCarouselProps.tsx";
+import {Link} from "react-router-dom";
 
 interface CardProps {
   ad: AdvertisementRead
@@ -8,7 +9,11 @@ interface CardProps {
 export function AdvertisementCard({ad}: CardProps) {
   return (
     <>
-      <div className="rounded-xl border shadow-sm p-4 space-y-4">
+      <Link
+        to={`/advertisements/${ad.uuid}`}
+        className="block hover:scale-[1.02] transition-transform"
+      >
+      <div className="rounded-xl shadow-sm p-2 space-y-4 border-3 border-blue-600 bg-white">
         <AdvertisementCarouselProps images={ad.imageUrl} />
 
         <div>
@@ -25,6 +30,7 @@ export function AdvertisementCard({ad}: CardProps) {
           </p>
         </div>
       </div>
+      </Link>
     </>
   )
 }
