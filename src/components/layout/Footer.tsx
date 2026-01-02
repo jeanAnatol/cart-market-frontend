@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       <footer className="bg-gray-700 text-white">
-        <div className="container mx-auto py-6 text-center">
+        <div className="container mx-auto py-4 text-center">
           @{currentYear} Cart Market, All rights reserved.
         </div>
       </footer>
