@@ -37,7 +37,7 @@ export const locationInsertSchema = z.object({
 
 
 export const advertisementInsertSchema = z.object({
-  userId: z.number().int().positive(),
+  // userId: z.number().int().positive(),
   price: z.number().positive(),
   
   vehicleDetailsInsertDTO: vehicleDetailsInsertSchema,
