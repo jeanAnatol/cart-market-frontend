@@ -10,9 +10,8 @@ import {fetchFuelTypes, fetchVehicleCatalog, fetchVehicleStates} from "../../ser
 import {createAdvertisement} from "../../services/api.advertisements.ts";
 import type {AdvertisementRead} from "../../types/advertisement.read.ts";
 import {useNavigate} from "react-router";
-
-
-
+import MapPicker from "../MapPicker.tsx";
+import {reverseGeocode} from "../../services/api.geocoding.ts";
 
 export default function AdvertisementCreateForm() {
   
@@ -31,12 +30,11 @@ export default function AdvertisementCreateForm() {
     handleSubmit,
     watch,
     setValue,
+    resetField,
     formState: {errors},
   } = useForm<AdvertisementInsert>({
     resolver: zodResolver(advertisementInsertSchema),
-    defaultValues: {
-      userId: 1,
-    },
+   
   });
   
   useEffect(() => {
@@ -98,19 +96,57 @@ export default function AdvertisementCreateForm() {
     navigate(`/advertisements/${savedAd.uuid}`);
   };
   
+  const handleLocationSelect = async (lat: number, lon: number) => {
+    // store coordinates
+    setValue("locationInsertDTO.latitude", lat.toString());
+    setValue("locationInsertDTO.longitude", lon.toString());
+    
+    try {
+      
+      
+      const data = await reverseGeocode(lat, lon);
+      
+      const rawCounty =
+        data.address.county ??
+        data.address.district ??
+        data.address.suburb;
+      
+      const countyName = rawCounty
+        ?.replace(/^Περιφερειακή Ενότητα\s+/i, "Νομός ")
+        ?.replace(/^Περιφέρεια\s+/i, "Νομός ")
+        ?.trim();
+      
+      const address = data.address ?? {};
+      
+      const city =
+        address.city ||
+        address.town ||
+        address.village ||
+        "";
+      
+      const fullPlace = city + ", " + countyName;
+      
+      const postalCode = address.postcode || "";
+      
+      setValue("locationInsertDTO.locationName", fullPlace);
+      setValue("locationInsertDTO.postalCode", postalCode);
+    } catch (err) {
+      console.error("Reverse geocoding failed", err);
+    }
+  };
   
   return (
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="max-w-6xl mx-auto mt-12 flex flex-col gap-10 mt-40 mb-10"
+        className="max-w-6xl mx-autoflex flex-col gap-10 mt-40 mb-10 relative z-10 p-6"
       >
         
         {/* VEHICLE INFORMATION */}
-        <section className="bg-white p-6 rounded-xl shadow">
+        <section className=" p-6 rounded-xl shadow bg-white">
           <h2 className="text-xl font-semibold mb-6">Vehicle Information</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 ">
             
             {/* VEHICLE TYPE */}
             <select
@@ -120,8 +156,10 @@ export default function AdvertisementCreateForm() {
               onChange={e => {
                 const id = Number(e.target.value);
                 setValue("vehicleDetailsInsertDTO.vehicleTypeId", id);
-                setValue("vehicleDetailsInsertDTO.makeId", undefined);
-                setValue("vehicleDetailsInsertDTO.modelId", undefined);
+                // setValue("vehicleDetailsInsertDTO.makeId", undefined);
+                // setValue("vehicleDetailsInsertDTO.modelId", undefined);
+                resetField("vehicleDetailsInsertDTO.makeId");
+                resetField("vehicleDetailsInsertDTO.modelId");
               }}
               className="border rounded p-2"
             >
@@ -142,7 +180,8 @@ export default function AdvertisementCreateForm() {
               onChange={e => {
                 const id = Number(e.target.value);
                 setValue("vehicleDetailsInsertDTO.makeId", id);
-                setValue("vehicleDetailsInsertDTO.modelId", undefined);
+                // setValue("vehicleDetailsInsertDTO.modelId", undefined);
+                resetField("vehicleDetailsInsertDTO.modelId");
               }}
               className="border rounded p-2 disabled:bg-gray-100"
             >
@@ -288,6 +327,10 @@ export default function AdvertisementCreateForm() {
         {/* LOCATION */}
         <section className="bg-white p-6 rounded-xl shadow">
           <h2 className="text-xl font-semibold mb-6">Location</h2>
+          
+          <div className="container mb-4 w-full h-full overflow-hidden rounded-xl border-2 border-gray-400">
+          <MapPicker onChange={handleLocationSelect}/>
+          </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input
