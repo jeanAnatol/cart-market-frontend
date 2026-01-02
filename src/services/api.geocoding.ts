@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export async function reverseGeocode(lat: number, lon: number) {
+export async function reverseGeocode(lat: string, lon: string) {
   const res = await axios.get("https://nominatim.openstreetmap.org/reverse", {
     
     params: {

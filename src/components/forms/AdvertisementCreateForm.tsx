@@ -96,7 +96,7 @@ export default function AdvertisementCreateForm() {
     navigate(`/advertisements/${savedAd.uuid}`);
   };
   
-  const handleLocationSelect = async (lat: number, lon: number) => {
+  const handleLocationSelect = async (lat: string, lon: string) => {
     // store coordinates
     setValue("locationInsertDTO.latitude", lat.toString());
     setValue("locationInsertDTO.longitude", lon.toString());
