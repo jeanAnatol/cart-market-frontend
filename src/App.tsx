@@ -14,6 +14,10 @@ import {AdminRoute} from "./routes/AdminRoute.tsx";
 import AdminLayout from "./components/layout/AdminLayout.tsx";
 import Forbidden from "./components/pages/Forbidden.tsx";
 import {ProtectedRoute} from "./routes/ProtectedRoute.tsx";
+import AdminHomePage from "./components/pages/admin/AdminHomePage.tsx";
+import AdminVehicleTypePage from "./components/pages/admin/AdminVehicleTypesPage.tsx";
+import AdminMakesPage from "./components/pages/admin/AdminMakesPage.tsx";
+import AdminModelsPage from "./components/pages/admin/AdminModelsPage.tsx";
 
 function App() {
   return (
@@ -63,7 +67,12 @@ function App() {
                   <AdminLayout />
                 </AdminRoute>
               }
-            />
+            >
+              <Route index element={<AdminHomePage />} />
+              <Route path="vehicle-types" element={<AdminVehicleTypePage  />} />
+              <Route path="makes" element={<AdminMakesPage />} />
+              <Route path="models" element={<AdminModelsPage />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>
