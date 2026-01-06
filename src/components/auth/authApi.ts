@@ -9,10 +9,12 @@ export const authApi = axios.create({
 
 authApi.interceptors.request.use(config => {
   const token = getToken();
-  
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  
-  return config;
-});
+    
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    
+    return config;
+  },
+  error => Promise.reject(error)
+);
