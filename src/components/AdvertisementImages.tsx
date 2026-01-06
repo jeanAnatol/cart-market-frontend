@@ -19,7 +19,6 @@ export default function AdvertisementImages({ images }: AdvertisementImagesProps
       </div>
     )
   }
-  console.log("AdvertisementImages", images)
   
   return (
     <>
