@@ -1,12 +1,12 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {Link} from "react-router-dom";
 import { login } from "../../services/api.auth";
 import {saveToken} from "../auth/token.ts";
 
 
 export default function LoginPage() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +19,7 @@ export default function LoginPage() {
     try {
       const res = await login({ username, password });
       saveToken(res.token);
-      navigate("/"); // or dashboard
+      window.location.href = "/"; // force refresh
     } catch (err) {
       setError("Invalid credentials");
     }
@@ -50,6 +50,12 @@ export default function LoginPage() {
         <button className="bg-blue-600 text-white py-2 rounded">
           Login
         </button>
+        <p className="mt-4 text-sm">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-600 underline">
+            Register
+          </Link>
+        </p>
       </form>
     </div>
   );
