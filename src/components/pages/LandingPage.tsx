@@ -1,7 +1,11 @@
 import {Link} from "react-router";
+import {useAuth} from "../auth/useAuth.ts";
 
 
 export default function LandingPage() {
+  
+  const { isAuthenticated, isAdmin, loading } = useAuth();
+  
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen gap-6 text-white">
@@ -19,6 +23,16 @@ export default function LandingPage() {
         >
           All Advertisements
         </Link>
+        
+        { /* Show this only an admin logs in */ }
+        {!loading && isAuthenticated && isAdmin && (
+          <Link
+            to="/admin"
+            className="bg-orange-500 text-white px-6 py-2 rounded"
+          >
+            Admin Panel
+          </Link>
+          )}
       </div>
     </>
   )
