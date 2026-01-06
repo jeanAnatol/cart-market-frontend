@@ -7,11 +7,15 @@ import LandingPage from "./components/pages/LandingPage.tsx";
 import AdvertisementDetailsPage from "./components/pages/AdvertisementDetailsPage.tsx";
 import AdvertisementCreatePage from "./components/pages/AdvertisementCreatePage.tsx";
 import LoginPage from "./components/pages/LoginPage.tsx";
-import ProtectedRoute from "./services/ProtectedRoute.tsx";
 import RegisterPage from "./components/pages/RegisterPage.tsx";
+import MyAccountPage from "./components/pages/MyAccountPage.tsx";
+import AdvertisementUpdatePage from "./components/pages/AdvertisementUpdatePage.tsx";
+import {AdminRoute} from "./routes/AdminRoute.tsx";
+import AdminLayout from "./components/layout/AdminLayout.tsx";
+import Forbidden from "./components/pages/Forbidden.tsx";
+import {ProtectedRoute} from "./routes/ProtectedRoute.tsx";
 
 function App() {
-
   return (
     <>
       <BrowserRouter>
@@ -20,18 +24,46 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            
             <Route path="/advertisements/all" element={<AdvertisementsPage />} />
             <Route
               path="/advertisements/:uuid"
-              element={<AdvertisementDetailsPage />}
+              element={
+              <AdvertisementDetailsPage />
+            }
             />
             <Route path="/advertisements/new" element={
               <ProtectedRoute>
               <AdvertisementCreatePage />
               </ProtectedRoute>
             } />
-            
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <MyAccountPage />
+                </ProtectedRoute>
+              }
+              
+            />
+            <Route
+              path="/advertisements/update/:uuid"
+              element={
+                <ProtectedRoute>
+                  <AdvertisementUpdatePage />
+                </ProtectedRoute>
+              }
+            />
             <Route path="/advertisements/:uuid" element={<AdvertisementDetailsPage />} />
+            <Route path="/forbidden" element={<Forbidden />} />
+            <Route
+              path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminLayout />
+                </AdminRoute>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>
