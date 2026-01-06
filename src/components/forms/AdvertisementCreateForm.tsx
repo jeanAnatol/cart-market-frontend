@@ -8,7 +8,6 @@ import type {FuelTypeDTO, VehicleTypeDTO} from "../../types/vehicle.catalog.type
 
 import {fetchFuelTypes, fetchVehicleCatalog, fetchVehicleStates} from "../../services/api.vehicle.catalog.ts";
 import {createAdvertisement} from "../../services/api.advertisements.ts";
-import type {AdvertisementRead} from "../../types/advertisement.read.ts";
 import {useNavigate} from "react-router";
 import MapPicker from "../MapPicker.tsx";
 import {reverseGeocode} from "../../services/api.geocoding.ts";
@@ -21,8 +20,6 @@ export default function AdvertisementCreateForm() {
   const [vehicleTypes, setVehicleTypes] = useState<VehicleTypeDTO[]>([]);
   const [fuelTypes, setFuelTypes] = useState<FuelTypeDTO[]>([]);
   const [vehicleStates, setVehicleStates] = useState<string[]>([]);
-  
-  const [createdAd, setCreatedAd] = useState<AdvertisementRead | null>(null);
   
   
   const {
@@ -91,7 +88,6 @@ export default function AdvertisementCreateForm() {
     
     // await createAdvertisement(formData);
     const savedAd = await createAdvertisement(formData);
-    setCreatedAd(savedAd);
     
     navigate(`/advertisements/${savedAd.uuid}`);
   };
@@ -156,8 +152,6 @@ export default function AdvertisementCreateForm() {
               onChange={e => {
                 const id = Number(e.target.value);
                 setValue("vehicleDetailsInsertDTO.vehicleTypeId", id);
-                // setValue("vehicleDetailsInsertDTO.makeId", undefined);
-                // setValue("vehicleDetailsInsertDTO.modelId", undefined);
                 resetField("vehicleDetailsInsertDTO.makeId");
                 resetField("vehicleDetailsInsertDTO.modelId");
               }}
@@ -180,7 +174,6 @@ export default function AdvertisementCreateForm() {
               onChange={e => {
                 const id = Number(e.target.value);
                 setValue("vehicleDetailsInsertDTO.makeId", id);
-                // setValue("vehicleDetailsInsertDTO.modelId", undefined);
                 resetField("vehicleDetailsInsertDTO.modelId");
               }}
               className="border rounded p-2 disabled:bg-gray-100"
@@ -257,7 +250,7 @@ export default function AdvertisementCreateForm() {
         
         {/* ENGINE */}
         <section className="bg-white p-6 rounded-xl shadow">
-          <h2 className="text-xl font-semibold mb-6">Engine & Performance</h2>
+          <h2 className="text-xl font-semibold mb-6">Engine</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             
@@ -396,7 +389,7 @@ export default function AdvertisementCreateForm() {
               if (!e.target.files) return;
               setValue("images", Array.from(e.target.files));
             }}
-            className="block"
+            className="block border border-black"
           />
         </section>
         
@@ -408,26 +401,6 @@ export default function AdvertisementCreateForm() {
           Create Advertisement
         </button>
       </form>
-      {createdAd && (
-        <section className="mt-10 bg-green-50 border border-green-300 p-6 rounded-lg mb-20">
-          <h2 className="text-xl font-semibold mb-2">
-            Advertisement Created Successfully
-          </h2>
-          
-          <p>
-            <strong>Name:</strong> {createdAd.adName}
-          </p>
-          
-          <p>
-            <strong>Price:</strong> {createdAd.price}
-          </p>
-          
-          <p>
-            <strong>Vehicle:</strong>{" "}
-            {createdAd.vehicleDetailsDTO.state}, {createdAd.engineSpecDTO.fuelType}
-          </p>
-        </section>
-      )}
     </>
   );
 }
