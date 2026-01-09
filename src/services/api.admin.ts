@@ -40,6 +40,26 @@ export async function adminDeleteMake(makeId: number): Promise<void> {
   await authApi.delete(`${adminUrl}/makes/delete/${makeId}`);
 }
 
+export async function adminAddVehicleTypeToMake(
+  makeId: number,
+  typeId: number
+): Promise<void> {
+  await authApi.post(
+    `${adminUrl}/makes/${makeId}/add-vehicle-type/${typeId}`
+  );
+}
+
+export async function adminRemoveVehicleTypeFromMake(
+  makeId: number,
+  typeId: number
+): Promise<void> {
+  await authApi.delete(
+    `${adminUrl}/makes/${makeId}/remove-vehicle-type/${typeId}`
+  );
+}
+
+// Models
+
 export async function adminFetchAllModels(): Promise<ModelDTO[]> {
   const response = await authApi.get<ModelDTO[]>(`${adminUrl}/models/all`);
   return response.data;
